@@ -78,10 +78,14 @@ if submit:
 
         # Predict
         prediction = model.predict(full_input)
+        probabilities = model.predict_proba(full_input)  # Get probabilities
 
         # Result
         st.subheader("Prediction Result")
-        st.success("✅ Diabetic" if prediction[0] == 1 else "🟢 Not Diabetic")
+        if prediction[0] == 1:
+            st.success(f"✅ Diabetic (Probability: {probabilities[0][1]:.2f})")
+        else:
+            st.success(f"🟢 Not Diabetic (Probability: {probabilities[0][0]:.2f})")
 
     except Exception as e:
         st.error(f"Prediction failed: {e}")
